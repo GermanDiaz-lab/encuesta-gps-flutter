@@ -1,40 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../auth/auth_service.dart';
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.authService});
-
-  final AuthService authService;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pantalla principal'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            await authService.signOut();
-            if (!context.mounted) {
-              return;
-            }
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => AuthScreen(authService: authService),
-              ),
-            );
-          },
-          child: const Text('Cerrar sesión'),
-        ),
-      ),
-    );
-  }
-}
+import '../../screens/home_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key, required this.authService});
+
+  static const routeName = '/auth';
 
   final AuthService authService;
 
@@ -52,11 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.authService.hasCurrentUser) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => HomeScreen(authService: widget.authService),
-          ),
-        );
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
     });
   }
@@ -78,11 +46,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (!mounted) {
         return;
       }
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => HomeScreen(authService: widget.authService),
-        ),
-      );
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     } on StateError catch (error) {
       _showMessage(error.message ?? error.toString());
     }
