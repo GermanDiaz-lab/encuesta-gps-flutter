@@ -30,6 +30,11 @@ class AuthService {
 
   Future<void> signInWithGoogle() async {
     try {
+      if (kIsWeb && _webClientId.isEmpty) {
+        throw StateError(
+          'Falta configurar GOOGLE_SIGN_IN_WEB_CLIENT_ID para el inicio de sesión web.',
+        );
+      }
       final googleSignIn = GoogleSignIn(
         clientId: kIsWeb && _webClientId.isNotEmpty ? _webClientId : null,
       );
@@ -45,6 +50,12 @@ class AuthService {
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseAuthException catch (error) {
       throw StateError(error.message ?? error.toString());
+    } on StateError {
+      rethrow;
+    } on Exception catch (error) {
+      throw StateError(
+        'No se pudo iniciar sesión con Google. ${error.toString()}',
+      );
     }
   }
 
