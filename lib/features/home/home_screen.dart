@@ -17,7 +17,6 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -33,7 +32,6 @@ class _AuthScreenState extends State<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -52,17 +50,13 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  Future<void> _handleSignUp() async {
+  Future<void> _handleGoogleSignIn() async {
     try {
-      await widget.authService.signUp(
-        email: _emailController.text,
-        password: _passwordController.text,
-        confirmPassword: _confirmPasswordController.text,
-      );
+      await widget.authService.signInWithGoogle();
       if (!mounted) {
         return;
       }
-      _showMessage('Registro exitoso');
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     } on StateError catch (error) {
       _showMessage(error.message ?? error.toString());
     }
@@ -93,22 +87,16 @@ class _AuthScreenState extends State<AuthScreen> {
               decoration: const InputDecoration(labelText: 'Contraseña'),
               obscureText: true,
             ),
-            TextField(
-              controller: _confirmPasswordController,
-              decoration: const InputDecoration(
-                labelText: 'Confirmar contraseña',
-              ),
-              obscureText: true,
-            ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: _handleSignIn,
               child: const Text('Ingresar'),
             ),
             const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: _handleSignUp,
-              child: const Text('Registrarse'),
+            ElevatedButton.icon(
+              onPressed: _handleGoogleSignIn,
+              icon: const Icon(Icons.g_mobiledata),
+              label: const Text('Continuar con Google'),
             ),
           ],
         ),

@@ -24,26 +24,18 @@ class AuthService {
     }
   }
 
-  Future<void> signUp({
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
-    if (email.trim().isEmpty ||
-        password.trim().isEmpty ||
-        confirmPassword.trim().isEmpty) {
-      throw StateError('Es necesario completar todos los campos!!');
-    }
-
-    if (password != confirmPassword) {
-      throw StateError('Contraseña no coincide!!');
-    }
-
+  Future<void> signInWithGoogle() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
+      final googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        throw StateError('Inicio de sesión con Google cancelado.');
+      }
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
+      await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseAuthException catch (error) {
       throw StateError(error.message ?? error.toString());
     }
