@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'features/auth/auth_service.dart';
+import 'features/home/home_screen.dart';
+
 void main() {
   runApp(const MainApp());
 }
@@ -9,12 +12,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    final authService = AuthService();
+    return MaterialApp(
+      home: AuthScreen(authService: authService),
     );
   }
 }
