@@ -32,9 +32,49 @@ class HomeScreen extends StatelessWidget {
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Text(
-                  'Revisa el estado de tus encuestas activas.',
-                  style: textTheme.bodyMedium,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nuevo registro',
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Completa los datos principales para crear una nueva encuesta.',
+                      style: textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 16),
+                    const TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Nombre completo',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Correo electrónico',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 16),
+                    const TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Teléfono',
+                      ),
+                      keyboardType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: 24),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: FilledButton(
+                        onPressed: () {},
+                        child: const Text('Guardar registro'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
