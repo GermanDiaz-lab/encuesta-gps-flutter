@@ -7,6 +7,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pantalla principal'),
@@ -14,21 +15,27 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
-          children: const [
+          children: [
             Text(
               'Bienvenido',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              style: textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
               'Explora las opciones principales o agrega un nuevo registro '
               'con el botón flotante.',
+              style: textTheme.bodyMedium,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text('Revisa el estado de tus encuestas activas.'),
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'Revisa el estado de tus encuestas activas.',
+                  style: textTheme.bodyMedium,
+                ),
               ),
             ),
           ],
