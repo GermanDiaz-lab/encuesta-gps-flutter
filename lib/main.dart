@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'features/auth/auth_service.dart';
 import 'features/home/home_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,7 +15,15 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = AuthService();
     return MaterialApp(
-      home: AuthScreen(authService: authService),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+      ),
+      home: const HomeScreen(),
+      routes: {
+        HomeScreen.routeName: (_) => const HomeScreen(),
+        AuthScreen.routeName: (_) => AuthScreen(authService: authService),
+      },
     );
   }
 }
