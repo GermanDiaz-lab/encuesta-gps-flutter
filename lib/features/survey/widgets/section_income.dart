@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../data/survey_options.dart';
 import '../survey_controller.dart';
+import 'survey_dropdown_field.dart';
+import 'survey_section_header.dart';
 import 'survey_text_field.dart';
 
 class SectionIncome extends StatelessWidget {
@@ -10,46 +13,81 @@ class SectionIncome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final index = controller.numeroDeIngresos;
+    final fechaValue = index < controller.fechaList.length
+        ? controller.fechaList[index].join('/')
+        : 'Sin seleccionar';
+
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(
-          'Situacion Economica - FINANCIERA INGRESOS ${controller.numeroDeIngresos + 1}',
-          style: Theme.of(context).textTheme.titleMedium,
+        SurveySectionHeader(
+          title: 'Situación Económica - Ingresos',
+          subtitle: 'Registro de ingreso ${index + 1}.',
         ),
-        const SizedBox(height: 16),
-        SurveyTextField(label: 'a57', controller: controller.controllerFor('a57')),
-        SurveyTextField(label: 'a58', controller: controller.controllerFor('a58')),
-        SurveyTextField(label: 'a59', controller: controller.controllerFor('a59')),
-        SurveyTextField(label: 'a60', controller: controller.controllerFor('a60')),
         SurveyTextField(
-          label: 'a61',
+          label: 'Nombre',
+          controller: controller.controllerFor('a57'),
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar categoría laboral',
+          controller: controller.controllerFor('a58'),
+          options: employmentOptions,
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar ocupación',
+          controller: controller.controllerFor('a59'),
+          options: occupationOptions,
+        ),
+        SurveyTextField(
+          label: 'Teléfono',
+          controller: controller.controllerFor('a60'),
+          keyboardType: TextInputType.phone,
+        ),
+        SurveyTextField(
+          label: 'Ingresos',
           controller: controller.controllerFor('a61'),
           keyboardType: TextInputType.number,
         ),
-        SurveyTextField(label: 'a62', controller: controller.controllerFor('a62')),
-        const SizedBox(height: 8),
+        SurveyTextField(
+          label: 'Domicilio',
+          controller: controller.controllerFor('a62'),
+        ),
         Text(
-          'Fecha a63: ${controller.numeroDeIngresos < controller.fechaList.length ? controller.fechaList[controller.numeroDeIngresos].join('/') : 'Sin seleccionar'}',
+          'Fecha del recibo',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () async {
-            final date = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1900),
-              lastDate: DateTime(2100),
-            );
-            if (date != null) {
-              controller.setIngresoDate(controller.numeroDeIngresos, date);
-            }
-          },
-          child: const Text('Seleccionar fecha a63'),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                fechaValue,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+            FilledButton(
+              onPressed: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2100),
+                );
+                if (date != null) {
+                  controller.setIngresoDate(index, date);
+                }
+              },
+              child: const Text('Seleccionar fecha'),
+            ),
+          ],
         ),
-        SurveyTextField(label: 'a64', controller: controller.controllerFor('a64')),
+        SurveyTextField(
+          label: 'Lugar',
+          controller: controller.controllerFor('a64'),
+        ),
         const SizedBox(height: 16),
-        ElevatedButton(
+        OutlinedButton.icon(
           onPressed: () {
             final added = controller.addIngresoFromFields(
               empleoNumero: 0,
@@ -57,11 +95,14 @@ class SectionIncome extends StatelessWidget {
             );
             if (!added) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Maximo numero de Ingresos alcanzado')),
+                const SnackBar(
+                  content: Text('Máximo número de ingresos alcanzado'),
+                ),
               );
             }
           },
-          child: const Text('Nuevo importe'),
+          icon: const Icon(Icons.add),
+          label: const Text('Guardar ingreso y agregar otro'),
         ),
       ],
     );

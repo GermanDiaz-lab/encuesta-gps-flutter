@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../data/survey_options.dart';
 import '../survey_controller.dart';
+import 'survey_dropdown_field.dart';
+import 'survey_section_header.dart';
 import 'survey_text_field.dart';
 
 class SectionPlan extends StatelessWidget {
@@ -13,14 +16,48 @@ class SectionPlan extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        SurveyTextField(label: 'a94', controller: controller.controllerFor('a94')),
-        SurveyTextField(label: 'a95', controller: controller.controllerFor('a95')),
-        SurveyTextField(label: 'a96', controller: controller.controllerFor('a96')),
-        SurveyTextField(label: 'a97', controller: controller.controllerFor('a97')),
-        SurveyTextField(label: 'a98', controller: controller.controllerFor('a98')),
-        SurveyTextField(label: 'a99', controller: controller.controllerFor('a99')),
-        SurveyTextField(label: 'a100', controller: controller.controllerFor('a100')),
-        SurveyTextField(label: 'a101', controller: controller.controllerFor('a101')),
+        const SurveySectionHeader(
+          title: 'Conclusión cuota modalidad regularización',
+          subtitle: 'Resultado y tipo de cuota asignada.',
+        ),
+        Text(
+          'Tipo de cuota',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        SurveyTextField(
+          label: 'Cuota social',
+          controller: controller.controllerFor('a94'),
+        ),
+        SurveyTextField(
+          label: 'Cuota provisoria',
+          controller: controller.controllerFor('a95'),
+        ),
+        SurveyTextField(
+          label: 'Cuota estándar',
+          controller: controller.controllerFor('a96'),
+        ),
+        SurveyTextField(
+          label: 'Plan venta',
+          controller: controller.controllerFor('a97'),
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar plan alquiler',
+          controller: controller.controllerFor('a98'),
+          options: alquilerOptions,
+        ),
+        SurveyTextField(
+          label: 'Otros',
+          controller: controller.controllerFor('a99'),
+        ),
+        SurveyTextField(
+          label: 'Plazo de presentación de documentación',
+          controller: controller.controllerFor('a100'),
+        ),
+        SurveyTextField(
+          label: 'Observaciones',
+          controller: controller.controllerFor('a101'),
+          maxLines: 3,
+        ),
       ],
     );
   }
