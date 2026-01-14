@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'features/auth/auth_service.dart';
 import 'features/home/home_screen.dart';
+import 'features/survey/survey_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -16,9 +17,10 @@ class MainApp extends StatelessWidget {
     final authService = AuthService();
     return MaterialApp(
       theme: AppTheme.light(),
-      home: AuthScreen(authService: authService),
+      home: const SurveyPage(),
       routes: {
         AuthScreen.routeName: (_) => AuthScreen(authService: authService),
+        SurveyPage.routeName: (_) => const SurveyPage(),
       },
     );
   }
