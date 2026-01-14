@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../data/survey_options.dart';
 import '../survey_controller.dart';
+import 'survey_dropdown_field.dart';
+import 'survey_section_header.dart';
 import 'survey_text_field.dart';
 
 class SectionFinancial extends StatelessWidget {
@@ -13,22 +16,94 @@ class SectionFinancial extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        SurveyTextField(label: 'a65', controller: controller.controllerFor('a65')),
-        SurveyTextField(label: 'a66', controller: controller.controllerFor('a66')),
-        SurveyTextField(label: 'a67', controller: controller.controllerFor('a67')),
-        SurveyTextField(label: 'a68', controller: controller.controllerFor('a68')),
-        SurveyTextField(label: 'a69', controller: controller.controllerFor('a69')),
-        SurveyTextField(label: 'a70', controller: controller.controllerFor('a70')),
-        SurveyTextField(label: 'a71', controller: controller.controllerFor('a71')),
-        SurveyTextField(label: 'a72', controller: controller.controllerFor('a72')),
-        SurveyTextField(label: 'a73', controller: controller.controllerFor('a73')),
-        SurveyTextField(label: 'a74', controller: controller.controllerFor('a74')),
-        SurveyTextField(label: 'a75', controller: controller.controllerFor('a75')),
-        SurveyTextField(label: 'a76', controller: controller.controllerFor('a76')),
-        SurveyTextField(label: 'a77', controller: controller.controllerFor('a77')),
-        SurveyTextField(label: 'a78', controller: controller.controllerFor('a78')),
-        SurveyTextField(label: 'a79', controller: controller.controllerFor('a79')),
-        SurveyTextField(label: 'a80', controller: controller.controllerFor('a80')),
+        const SurveySectionHeader(
+          title: 'Situación Económica - Financiera',
+          subtitle: 'Titular y garante del hogar.',
+        ),
+        SurveyTextField(
+          label: 'Principal pagador',
+          controller: controller.controllerFor('a65'),
+        ),
+        SurveyTextField(
+          label: 'DNI',
+          controller: controller.controllerFor('a66'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyTextField(
+          label: 'Ingresos',
+          controller: controller.controllerFor('a67'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar categoría laboral',
+          controller: controller.controllerFor('a68'),
+          options: employmentOptions,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Garante',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        SurveyTextField(
+          label: 'Nombre del garante',
+          controller: controller.controllerFor('a69'),
+        ),
+        SurveyTextField(
+          label: 'DNI',
+          controller: controller.controllerFor('a70'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyTextField(
+          label: 'Ingresos',
+          controller: controller.controllerFor('a71'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar categoría laboral',
+          controller: controller.controllerFor('a72'),
+          options: employmentOptions,
+        ),
+        SurveyTextField(
+          label: 'Declaración jurada',
+          controller: controller.controllerFor('a73'),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Titular: créditos vigentes',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        SurveyTextField(
+          label: 'Préstamos',
+          controller: controller.controllerFor('a74'),
+        ),
+        SurveyTextField(
+          label: 'Monto',
+          controller: controller.controllerFor('a75'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyTextField(
+          label: 'Plazo',
+          controller: controller.controllerFor('a76'),
+        ),
+        SurveyTextField(
+          label: 'Tarjetas',
+          controller: controller.controllerFor('a77'),
+        ),
+        SurveyTextField(
+          label: 'Consumo mensual',
+          controller: controller.controllerFor('a78'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyDropdownField(
+          label: 'Seleccionar tipo de tarjeta',
+          controller: controller.controllerFor('a79'),
+          options: tarjetaOptions,
+        ),
+        SurveyTextField(
+          label: 'Observaciones',
+          controller: controller.controllerFor('a80'),
+          maxLines: 3,
+        ),
       ],
     );
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../data/survey_options.dart';
 import '../survey_controller.dart';
 import 'survey_checkbox.dart';
+import 'survey_radio_group.dart';
+import 'survey_section_header.dart';
 import 'survey_text_field.dart';
 
 class SectionServices extends StatelessWidget {
@@ -14,39 +17,75 @@ class SectionServices extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        const SurveySectionHeader(
+          title: 'Servicios',
+          subtitle: 'Detalles de servicios y montos mensuales.',
+        ),
         SurveyCheckbox(
-          label: 'a81',
+          label: 'Luz',
           value: controller.checkboxValue('a81'),
-          onChanged: (value) =>
-              controller.setCheckbox('a81', value ?? false),
+          onChanged: (value) => controller.setCheckbox('a81', value ?? false),
         ),
-        SurveyTextField(label: 'a82', controller: controller.controllerFor('a82')),
-        SurveyTextField(label: 'a83', controller: controller.controllerFor('a83')),
+        SurveyTextField(
+          label: 'Monto mensual',
+          controller: controller.controllerFor('a82'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyRadioGroup(
+          label: 'Formalidad de conexión',
+          controller: controller.controllerFor('a83'),
+          options: formalidadOptions,
+        ),
         SurveyCheckbox(
-          label: 'a84',
+          label: 'Agua',
           value: controller.checkboxValue('a84'),
-          onChanged: (value) =>
-              controller.setCheckbox('a84', value ?? false),
+          onChanged: (value) => controller.setCheckbox('a84', value ?? false),
         ),
-        SurveyTextField(label: 'a85', controller: controller.controllerFor('a85')),
-        SurveyTextField(label: 'a86', controller: controller.controllerFor('a86')),
+        SurveyTextField(
+          label: 'Monto mensual',
+          controller: controller.controllerFor('a85'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyRadioGroup(
+          label: 'Formalidad de conexión',
+          controller: controller.controllerFor('a86'),
+          options: formalidadOptions,
+        ),
         SurveyCheckbox(
-          label: 'a87',
+          label: 'Cable',
           value: controller.checkboxValue('a87'),
-          onChanged: (value) =>
-              controller.setCheckbox('a87', value ?? false),
+          onChanged: (value) => controller.setCheckbox('a87', value ?? false),
         ),
-        SurveyTextField(label: 'a88', controller: controller.controllerFor('a88')),
-        SurveyTextField(label: 'a89', controller: controller.controllerFor('a89')),
+        SurveyTextField(
+          label: 'Monto mensual',
+          controller: controller.controllerFor('a88'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyRadioGroup(
+          label: 'Formalidad de conexión',
+          controller: controller.controllerFor('a89'),
+          options: formalidadOptions,
+        ),
         SurveyCheckbox(
-          label: 'a90',
+          label: 'Internet',
           value: controller.checkboxValue('a90'),
-          onChanged: (value) =>
-              controller.setCheckbox('a90', value ?? false),
+          onChanged: (value) => controller.setCheckbox('a90', value ?? false),
         ),
-        SurveyTextField(label: 'a91', controller: controller.controllerFor('a91')),
-        SurveyTextField(label: 'a92', controller: controller.controllerFor('a92')),
-        SurveyTextField(label: 'a93', controller: controller.controllerFor('a93')),
+        SurveyTextField(
+          label: 'Monto mensual',
+          controller: controller.controllerFor('a91'),
+          keyboardType: TextInputType.number,
+        ),
+        SurveyRadioGroup(
+          label: 'Formalidad de conexión',
+          controller: controller.controllerFor('a92'),
+          options: formalidadOptions,
+        ),
+        SurveyTextField(
+          label: 'Observaciones',
+          controller: controller.controllerFor('a93'),
+          maxLines: 3,
+        ),
       ],
     );
   }
