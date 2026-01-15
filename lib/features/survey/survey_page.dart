@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'services/location_service.dart';
+import 'services/imgur_service.dart';
+import 'services/survey_sync_service.dart';
 import 'survey_controller.dart';
 import 'widgets/section_financial.dart';
 import 'widgets/section_four.dart';
@@ -28,7 +31,13 @@ class _SurveyPageState extends State<SurveyPage> {
   @override
   void initState() {
     super.initState();
-    _controller = SurveyController(locationService: LocationService());
+    _controller = SurveyController(
+      locationService: LocationService(),
+      syncService: SurveySyncService(
+        imgurService: ImgurService(clientId: const String.fromEnvironment('IMGUR_CLIENT_ID')),
+        firestore: FirebaseFirestore.instance,
+      ),
+    );
   }
 
   @override

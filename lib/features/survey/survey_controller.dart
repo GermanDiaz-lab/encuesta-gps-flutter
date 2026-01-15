@@ -6,13 +6,18 @@ import 'package:intl/intl.dart';
 import 'models/income_entry.dart';
 import 'models/survey_model.dart';
 import 'services/location_service.dart';
+import 'services/survey_sync_service.dart';
 
 class SurveyController extends ChangeNotifier {
-  SurveyController({required this.locationService}) {
+  SurveyController({
+    required this.locationService,
+    required this.syncService,
+  }) {
     _initControllers();
   }
 
   final LocationService locationService;
+  final SurveySyncService syncService;
   final Map<String, TextEditingController> _controllers = {};
   final Map<String, bool> _checkboxes = {
     'a36': false,
@@ -146,8 +151,15 @@ class SurveyController extends ChangeNotifier {
     latestLatitud = location.latitude.toString();
     latestLongitud = location.longitude.toString();
     final model = buildSurveyModel();
-    debugPrint('SURVEY SAVED: ${model.toMap()}');
-    return SurveySubmissionResult.success('SQL GUARDADO');
+    final syncResult = await syncService.uploadSurvey(
+      model: model,
+      signaturePoints: List<Offset?>.of(_signaturePoints),
+    );
+    if (!syncResult.success) {
+      return SurveySubmissionResult.failure(syncResult.message);
+    }
+    debugPrint('SURVEY UPLOADED: ${model.toMap()}');
+    return SurveySubmissionResult.success(syncResult.message);
   }
 
   SurveyModel buildSurveyModel() {
