@@ -34,6 +34,7 @@ class SurveyController extends ChangeNotifier {
 
   final List<IncomeEntry> _incomes = [];
   final List<List<int>> _fechaList = [];
+  final List<Offset?> _signaturePoints = [];
   String fecha = '';
   String latestLatitud = '';
   String latestLongitud = '';
@@ -41,6 +42,8 @@ class SurveyController extends ChangeNotifier {
   int get numeroDeIngresos => _incomes.length;
   UnmodifiableListView<IncomeEntry> get incomes => UnmodifiableListView(_incomes);
   UnmodifiableListView<List<int>> get fechaList => UnmodifiableListView(_fechaList);
+  UnmodifiableListView<Offset?> get signaturePoints =>
+      UnmodifiableListView(_signaturePoints);
 
   TextEditingController controllerFor(String key) => _controllers[key]!;
 
@@ -48,6 +51,16 @@ class SurveyController extends ChangeNotifier {
 
   void setCheckbox(String key, bool value) {
     _checkboxes[key] = value;
+    notifyListeners();
+  }
+
+  void addSignaturePoint(Offset? point) {
+    _signaturePoints.add(point);
+    notifyListeners();
+  }
+
+  void clearSignature() {
+    _signaturePoints.clear();
     notifyListeners();
   }
 
@@ -190,6 +203,7 @@ class SurveyController extends ChangeNotifier {
       'fechadelrecibo2': _fechaOrEmpty(1),
       'fechadelrecibo3': _fechaOrEmpty(2),
       'fechadelrecibo4': _fechaOrEmpty(3),
+      'firma': _serializeSignature(),
     };
 
     return SurveyModel(
@@ -377,6 +391,17 @@ class SurveyController extends ChangeNotifier {
   String _getCurrentDate() {
     final dateFormat = DateFormat('dd/MM/yyyy');
     return dateFormat.format(DateTime.now());
+  }
+
+  String _serializeSignature() {
+    if (_signaturePoints.isEmpty) {
+      return '';
+    }
+    return _signaturePoints
+        .map((point) => point == null
+            ? 'null'
+            : '${point.dx.toStringAsFixed(1)},${point.dy.toStringAsFixed(1)}')
+        .join(';');
   }
 
   String _getOrDefault(Map<String, String> map, String key) {

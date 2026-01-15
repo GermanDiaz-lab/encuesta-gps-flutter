@@ -8,6 +8,7 @@ import 'widgets/section_income.dart';
 import 'widgets/section_one.dart';
 import 'widgets/section_plan.dart';
 import 'widgets/section_services.dart';
+import 'widgets/section_signature.dart';
 import 'widgets/section_three.dart';
 import 'widgets/section_two.dart';
 
@@ -47,6 +48,7 @@ class _SurveyPageState extends State<SurveyPage> {
       SectionFinancial(controller: _controller),
       SectionServices(controller: _controller),
       SectionPlan(controller: _controller),
+      SectionSignature(controller: _controller),
     ];
 
     return AnimatedBuilder(
